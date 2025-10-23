@@ -22,9 +22,9 @@ module ToyRobotSimulator
 
     def place_robot(x, y, direction)
       position = Position.new(x, y)
-      return unless @table.valid_position?(position)
+      return unless table.valid_position?(position)
 
-      @robot.place(position, direction)
+      robot.place(position, direction)
     end
   end
 end

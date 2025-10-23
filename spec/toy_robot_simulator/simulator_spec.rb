@@ -95,7 +95,7 @@ RSpec.describe ToyRobotSimulator::Simulator do
     context 'with nil command' do
       it 'does nothing' do
         simulator.execute(nil)
-        expect(simulator.robot.placed?).to be false
+        expect(simulator.robot).not_to be_placed
       end
 
       it 'does not raise error' do
@@ -107,6 +107,15 @@ RSpec.describe ToyRobotSimulator::Simulator do
       it 'does nothing for unrecognized command' do
         command = { command: :unknown }
         expect { simulator.execute(command) }.not_to raise_error
+      end
+    end
+
+    context 'before placement' do
+      %i[move left right report].each do |cmd|
+        it "ignores #{cmd.to_s.upcase} before placement" do
+          expect { simulator.execute(command: cmd) }
+            .not_to(change { [simulator.robot.position, simulator.robot.direction, simulator.robot.placed?] })
+        end
       end
     end
   end

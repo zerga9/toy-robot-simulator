@@ -48,3 +48,30 @@ PLACE 0,5,NORTH   → Ignored (y=5 is off table)
 ```
 
 ---
+
+### Story 3: Ignore Commands Before Placement
+
+**As a** user
+**I want** all commands before the first valid PLACE to be ignored
+**So that** I don't execute commands on an unplaced robot
+
+**Acceptance Criteria:**
+
+- Given the robot has not been placed
+- When I issue other commands than PLACE
+- Then all commands are ignored
+- When I issue a valid PLACE command
+- Then the robot is placed
+- And subsequent commands are executed
+
+**Example:**
+
+```
+MOVE              → Ignored
+LEFT              → Ignored
+REPORT            → Ignored
+PLACE 0,0,NORTH   → Robot placed
+MOVE              → Executed
+```
+
+---
