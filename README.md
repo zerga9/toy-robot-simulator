@@ -22,3 +22,29 @@ PLACE 0,0,NORTH   → Robot at (0,0) facing NORTH
 PLACE 2,3,EAST    → Robot at (2,3) facing EAST
 PLACE 4,4,SOUTH   → Robot at (4,4) facing SOUTH
 ```
+
+---
+
+### Story 2: Prevent Invalid Initial Placement
+
+**As a** user
+**I want** invalid PLACE commands to be ignored
+**So that** the robot doesn't fall off the table during initial placement
+
+**Acceptance Criteria:**
+
+- Given the table is 5x5 (positions 0-4 are valid)
+- When I issue command `PLACE 5,5,NORTH`
+- Then the command is ignored
+- And the robot remains unplaced
+- And further commands are ignored until a valid PLACE command
+
+**Examples:**
+
+```
+PLACE 10,10,NORTH → Ignored (out of bounds)
+PLACE -1,0,NORTH  → Ignored (negative position)
+PLACE 0,5,NORTH   → Ignored (y=5 is off table)
+```
+
+---
