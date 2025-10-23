@@ -102,3 +102,28 @@ Position (2,2) facing WEST + MOVE  → Position (1,2)
 ```
 
 ---
+
+### Story 5: Prevent Robot From Falling Off Table
+
+**As a** user
+**I want** the robot to ignore MOVE commands that would make it fall
+**So that** the robot stays on the table and doesn't get destroyed
+
+**Acceptance Criteria:**
+
+- Given the robot is at the edge of the table
+- When I issue a MOVE command that would take it off the table
+- Then the MOVE command is ignored
+- And the robot remains at its current position
+- And the robot can still accept further valid commands
+
+**Examples:**
+
+```
+At (0,0) facing SOUTH + MOVE → Stays at (0,0)
+At (0,0) facing WEST + MOVE  → Stays at (0,0)
+At (4,4) facing NORTH + MOVE → Stays at (4,4)
+At (4,4) facing EAST + MOVE  → Stays at (4,4)
+```
+
+---
