@@ -117,4 +117,19 @@ RSpec.describe ToyRobotSimulator::Robot do
       end
     end
   end
+
+  describe '#report' do
+    context 'when robot is placed' do
+      it 'returns formatted position and direction' do
+        robot.place(ToyRobotSimulator::Position.new(1, 2), ToyRobotSimulator::Direction::EAST)
+        expect(robot.report).to eq('1,2,EAST')
+      end
+    end
+
+    context 'when robot is not placed' do
+      it 'returns nil' do
+        expect(robot.report).to be_nil
+      end
+    end
+  end
 end

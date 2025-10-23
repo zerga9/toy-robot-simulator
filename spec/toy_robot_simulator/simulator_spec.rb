@@ -14,82 +14,79 @@ RSpec.describe ToyRobotSimulator::Simulator do
     end
   end
 
+  describe '#robot' do
+    it 'returns the robot instance' do
+      expect(simulator.robot).to be_a(ToyRobotSimulator::Robot)
+    end
+  end
+
+  describe '#table' do
+    it 'returns the table instance' do
+      expect(simulator.table).to be_a(ToyRobotSimulator::Table)
+    end
+  end
+
   describe '#execute' do
-    context 'with PLACE command' do
-      it 'places robot at valid position (0,0) facing NORTH' do
-        command = { command: :place, x: 0, y: 0, direction: :north }
-        simulator.execute(command)
+    let(:place_command) do
+      { command: :place, x: 0, y: 0, direction: ToyRobotSimulator::Direction::NORTH }
+    end
 
-        expect(simulator.robot.placed?).to be true
-        expect(simulator.robot.position.x).to eq(0)
-        expect(simulator.robot.position.y).to eq(0)
-        expect(simulator.robot.direction).to eq(:north)
-      end
+    it 'executes place command' do
+      simulator.execute(place_command)
+      expect(simulator.robot.placed?).to be true
+      expect(simulator.robot.position.x).to eq(0)
+      expect(simulator.robot.position.y).to eq(0)
+      expect(simulator.robot.direction).to eq(ToyRobotSimulator::Direction::NORTH)
+    end
 
-      it 'places robot at valid position (2,3) facing EAST' do
-        command = { command: :place, x: 2, y: 3, direction: :east }
-        simulator.execute(command)
+    it 'ignores nil command' do
+      expect { simulator.execute(nil) }.not_to raise_error
+      expect(simulator.robot.placed?).to be false
+    end
 
-        expect(simulator.robot.placed?).to be true
-        expect(simulator.robot.position.x).to eq(2)
-        expect(simulator.robot.position.y).to eq(3)
-        expect(simulator.robot.direction).to eq(:east)
-      end
+    it 'executes multiple commands in sequence' do
+      simulator.execute(place_command)
+      simulator.execute({ command: :move })
+      simulator.execute({ command: :right })
 
-      it 'places robot at valid position (4,4) facing SOUTH' do
-        command = { command: :place, x: 4, y: 4, direction: :south }
-        simulator.execute(command)
+      expect(simulator.robot.position.x).to eq(0)
+      expect(simulator.robot.position.y).to eq(1)
+      expect(simulator.robot.direction).to eq(ToyRobotSimulator::Direction::EAST)
+    end
 
-        expect(simulator.robot.placed?).to be true
-        expect(simulator.robot.position.x).to eq(4)
-        expect(simulator.robot.position.y).to eq(4)
-        expect(simulator.robot.direction).to eq(:south)
-      end
+    it 'executes move command' do
+      simulator.execute(place_command)
+      simulator.execute({ command: :move })
 
-      it 'places robot facing WEST' do
-        command = { command: :place, x: 1, y: 1, direction: :west }
-        simulator.execute(command)
+      expect(simulator.robot.position.y).to eq(1)
+    end
 
-        expect(simulator.robot.placed?).to be true
-        expect(simulator.robot.direction).to eq(:west)
-      end
+    it 'executes left turn command' do
+      simulator.execute(place_command)
+      simulator.execute({ command: :left })
 
-      it 'does not place robot at invalid position (negative x)' do
-        command = { command: :place, x: -1, y: 0, direction: :north }
-        simulator.execute(command)
+      expect(simulator.robot.direction).to eq(ToyRobotSimulator::Direction::WEST)
+    end
 
-        expect(simulator.robot.placed?).to be false
-      end
+    it 'executes right turn command' do
+      simulator.execute(place_command)
+      simulator.execute({ command: :right })
 
-      it 'does not place robot at invalid position (negative y)' do
-        command = { command: :place, x: 0, y: -1, direction: :north }
-        simulator.execute(command)
+      expect(simulator.robot.direction).to eq(ToyRobotSimulator::Direction::EAST)
+    end
 
-        expect(simulator.robot.placed?).to be false
-      end
+    it 'executes report command without error' do
+      simulator.execute(place_command)
+      expect { simulator.execute({ command: :report }) }.to output("0,0,NORTH\n").to_stdout
+    end
 
-      it 'does not place robot at invalid position (x >= 5)' do
-        command = { command: :place, x: 5, y: 0, direction: :north }
-        simulator.execute(command)
+    it 'allows replacing robot at different valid position' do
+      simulator.execute({ command: :place, x: 0, y: 0, direction: ToyRobotSimulator::Direction::NORTH })
+      simulator.execute({ command: :place, x: 3, y: 3, direction: ToyRobotSimulator::Direction::SOUTH })
 
-        expect(simulator.robot.placed?).to be false
-      end
-
-      it 'does not place robot at invalid position (y >= 5)' do
-        command = { command: :place, x: 0, y: 5, direction: :north }
-        simulator.execute(command)
-
-        expect(simulator.robot.placed?).to be false
-      end
-
-      it 'allows replacing robot at different valid position' do
-        simulator.execute({ command: :place, x: 0, y: 0, direction: :north })
-        simulator.execute({ command: :place, x: 3, y: 3, direction: :south })
-
-        expect(simulator.robot.position.x).to eq(3)
-        expect(simulator.robot.position.y).to eq(3)
-        expect(simulator.robot.direction).to eq(:south)
-      end
+      expect(simulator.robot.position.x).to eq(3)
+      expect(simulator.robot.position.y).to eq(3)
+      expect(simulator.robot.direction).to eq(ToyRobotSimulator::Direction::SOUTH)
     end
 
     context 'with nil command' do

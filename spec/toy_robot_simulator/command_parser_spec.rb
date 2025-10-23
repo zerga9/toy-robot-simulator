@@ -73,9 +73,24 @@ RSpec.describe ToyRobotSimulator::CommandParser do
         expect(result).to eq({ command: :right })
       end
 
+      it 'parses REPORT command' do
+        result = described_class.parse('REPORT')
+        expect(result).to eq({ command: :report })
+      end
+
+      it 'is case insensitive' do
+        expect(described_class.parse('move')).to eq({ command: :move })
+        expect(described_class.parse('MoVe')).to eq({ command: :move })
+      end
+
       it 'handles lowercase commands' do
         result = described_class.parse('move')
         expect(result).to eq({ command: :move })
+      end
+
+      it 'handles whitespace around commands' do
+        expect(described_class.parse('  MOVE  ')).to eq({ command: :move })
+        expect(described_class.parse("\tLEFT\n")).to eq({ command: :left })
       end
     end
 

@@ -37,5 +37,11 @@ module ToyRobotSimulator
 
       @direction = direction.turn_right
     end
+
+    def report
+      return nil unless placed?
+
+      "#{position.x},#{position.y},#{direction.name}"
+    end
   end
 end

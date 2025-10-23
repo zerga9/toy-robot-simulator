@@ -18,6 +18,7 @@ module ToyRobotSimulator
       when :move then robot.move
       when :left then robot.turn_left
       when :right then robot.turn_right
+      when :report then execute_report
       end
     end
 
@@ -28,6 +29,11 @@ module ToyRobotSimulator
       return unless table.valid_position?(position)
 
       robot.place(position, direction)
+    end
+
+    def execute_report
+      output = robot.report
+      puts output if output
     end
   end
 end

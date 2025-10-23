@@ -181,3 +181,29 @@ Facing EAST + RIGHT  → Facing SOUTH
 Facing SOUTH + RIGHT → Facing WEST
 Facing WEST + RIGHT  → Facing NORTH
 ```
+
+### Story 8: Report Robot Position
+
+**As a** user
+**I want to** see the robot's current position and direction
+**So that** I can verify the robot's state
+
+**Acceptance Criteria:**
+
+- Given the robot is placed on the table
+- When I issue command `REPORT`
+- Then the robot outputs its X position, Y position, and facing direction
+- Format: `X,Y,DIRECTION`
+- Output goes to standard output
+
+**Examples:**
+
+```
+Robot at (0,0) facing NORTH
+REPORT → Output: 0,0,NORTH
+
+Robot at (3,3) facing EAST
+REPORT → Output: 3,3,EAST
+```
+
+---
