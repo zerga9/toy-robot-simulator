@@ -31,5 +31,11 @@ module ToyRobotSimulator
 
       @direction = direction.turn_left
     end
+
+    def turn_right
+      return unless placed?
+
+      @direction = direction.turn_right
+    end
   end
 end

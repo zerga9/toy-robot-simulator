@@ -68,6 +68,11 @@ RSpec.describe ToyRobotSimulator::CommandParser do
         expect(result).to eq({ command: :left })
       end
 
+      it 'parses RIGHT command' do
+        result = described_class.parse('RIGHT')
+        expect(result).to eq({ command: :right })
+      end
+
       it 'handles lowercase commands' do
         result = described_class.parse('move')
         expect(result).to eq({ command: :move })

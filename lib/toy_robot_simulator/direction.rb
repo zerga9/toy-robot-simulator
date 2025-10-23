@@ -20,6 +20,11 @@ module ToyRobotSimulator
       DIRECTIONS[(idx - 1) % DIRECTIONS.size]
     end
 
+    def turn_right
+      idx = DIRECTIONS.index(self)
+      DIRECTIONS[(idx + 1) % DIRECTIONS.size]
+    end
+
     def self.from_string(str)
       return nil unless str
 

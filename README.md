@@ -155,3 +155,29 @@ Facing EAST + LEFT  → Facing NORTH
 ```
 
 ---
+
+### Story 7: Rotate Robot Right
+
+**As a** user
+**I want to** rotate the robot 90 degrees clockwise
+**So that** I can change the robot's facing direction
+
+**Acceptance Criteria:**
+
+- Given the robot is placed on the table
+- When I issue command `RIGHT`
+- Then the robot rotates 90 degrees clockwise
+- And the robot's position does not change
+- NORTH → EAST
+- EAST → SOUTH
+- SOUTH → WEST
+- WEST → NORTH
+
+**Examples:**
+
+```
+Facing NORTH + RIGHT → Facing EAST
+Facing EAST + RIGHT  → Facing SOUTH
+Facing SOUTH + RIGHT → Facing WEST
+Facing WEST + RIGHT  → Facing NORTH
+```
