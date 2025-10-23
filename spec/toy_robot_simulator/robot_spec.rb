@@ -37,4 +37,36 @@ RSpec.describe ToyRobotSimulator::Robot do
       end
     end
   end
+
+  describe '#move' do
+    context 'when robot is placed' do
+      it 'moves north correctly' do
+        robot.place(ToyRobotSimulator::Position.new(2, 2), :north)
+        robot.move
+        expect(robot.position.x).to eq(2)
+        expect(robot.position.y).to eq(3)
+      end
+
+      it 'moves east correctly' do
+        robot.place(ToyRobotSimulator::Position.new(2, 2), :east)
+        robot.move
+        expect(robot.position.x).to eq(3)
+        expect(robot.position.y).to eq(2)
+      end
+
+      it 'moves south correctly' do
+        robot.place(ToyRobotSimulator::Position.new(2, 2), :south)
+        robot.move
+        expect(robot.position.x).to eq(2)
+        expect(robot.position.y).to eq(1)
+      end
+
+      it 'moves west correctly' do
+        robot.place(ToyRobotSimulator::Position.new(2, 2), :west)
+        robot.move
+        expect(robot.position.x).to eq(1)
+        expect(robot.position.y).to eq(2)
+      end
+    end
+  end
 end

@@ -75,3 +75,30 @@ MOVE              → Executed
 ```
 
 ---
+
+### Story 4: Move Robot Forward
+
+**As a** user
+**I want to** move the robot one unit forward in its current direction
+**So that** I can navigate the robot around the table
+
+**Acceptance Criteria:**
+
+- Given the robot is placed at a valid position
+- When I issue command `MOVE`
+- Then the robot moves 1 unit forward in its current facing direction
+- NORTH increases Y by 1
+- EAST increases X by 1
+- SOUTH decreases Y by 1
+- WEST decreases X by 1
+
+**Examples:**
+
+```
+Position (0,0) facing NORTH + MOVE → Position (0,1)
+Position (2,2) facing EAST + MOVE  → Position (3,2)
+Position (3,3) facing SOUTH + MOVE → Position (3,2)
+Position (2,2) facing WEST + MOVE  → Position (1,2)
+```
+
+---

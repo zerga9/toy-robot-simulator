@@ -20,5 +20,14 @@ module ToyRobotSimulator
     def placed?
       !@position.nil? && !@direction.nil?
     end
+
+    def move
+      return unless placed?
+
+      new_position = position.move(direction)
+      return unless table.valid_position?(new_position)
+
+      @position = new_position
+    end
   end
 end
