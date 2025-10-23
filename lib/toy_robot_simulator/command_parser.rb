@@ -1,31 +1,40 @@
 module ToyRobotSimulator
   class CommandParser
+    SIMPLE_COMMANDS = {
+      'MOVE' => { command: :move },
+      'LEFT' => { command: :left },
+      'RIGHT' => { command: :right },
+      'REPORT' => { command: :report }
+    }.freeze
+
     def self.parse(input)
       return nil if input.nil? || input.strip.empty?
 
-      parts = input.strip.split(/\s+/)
-      command = parts[0].downcase
-
-      case command
-      when 'place'
-        parse_place(parts[1])
-      else
-        { command: command.to_sym }
-      end
+      line = input.strip.upcase
+      parse_place(line) || SIMPLE_COMMANDS[line]
     end
 
-    def self.parse_place(args)
-      return nil unless args
+    def self.parse_place(line)
+      return nil unless line.start_with?('PLACE ')
 
-      match = args.match(/^(\d+),(\d+),(NORTH|EAST|SOUTH|WEST)$/i)
-      return nil unless match
+      params = line.sub('PLACE ', '').strip
+      return nil if params.empty?
 
-      {
-        command: :place,
-        x: match[1].to_i,
-        y: match[2].to_i,
-        direction: match[3].downcase.to_sym
-      }
+      x, y, direction = extract_place_params(params)
+      return nil unless direction
+
+      { command: :place, x: x, y: y, direction: direction }
+    end
+
+    def self.extract_place_params(params)
+      place_params = params.split(',').map(&:strip)
+      return [nil, nil, nil] unless place_params.size == 3
+
+      x = place_params[0].to_i
+      y = place_params[1].to_i
+      direction = Direction.from_string(place_params[2])
+
+      [x, y, direction]
     end
   end
 end

@@ -127,3 +127,31 @@ At (4,4) facing EAST + MOVE  → Stays at (4,4)
 ```
 
 ---
+
+### Story 6: Rotate Robot Left
+
+**As a** user
+**I want to** rotate the robot 90 degrees counter-clockwise
+**So that** I can change the robot's facing direction
+
+**Acceptance Criteria:**
+
+- Given the robot is placed on the table
+- When I issue command `LEFT`
+- Then the robot rotates 90 degrees counter-clockwise
+- And the robot's position does not change
+- NORTH → WEST
+- WEST → SOUTH
+- SOUTH → EAST
+- EAST → NORTH
+
+**Examples:**
+
+```
+Facing NORTH + LEFT → Facing WEST
+Facing WEST + LEFT  → Facing SOUTH
+Facing SOUTH + LEFT → Facing EAST
+Facing EAST + LEFT  → Facing NORTH
+```
+
+---

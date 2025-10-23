@@ -16,6 +16,7 @@ module ToyRobotSimulator
       when :place
         place_robot(command_hash[:x], command_hash[:y], command_hash[:direction])
       when :move then robot.move
+      when :left then robot.turn_left
       end
     end
 

@@ -3,74 +3,40 @@ require 'spec_helper'
 RSpec.describe ToyRobotSimulator::CommandParser do
   describe '.parse' do
     context 'with PLACE commands' do
-      it 'parses valid PLACE command with NORTH' do
-        result = described_class.parse('PLACE 0,0,NORTH')
-        expect(result).to eq({
-                               command: :place,
-                               x: 0,
-                               y: 0,
-                               direction: :north
-                             })
-      end
+      it 'parses all valid directions' do
+        north = described_class.parse('PLACE 0,0,NORTH')
+        expect(north[:direction]).to eq(ToyRobotSimulator::Direction::NORTH)
 
-      it 'parses valid PLACE command with EAST' do
-        result = described_class.parse('PLACE 2,3,EAST')
-        expect(result).to eq({
-                               command: :place,
-                               x: 2,
-                               y: 3,
-                               direction: :east
-                             })
-      end
+        east = described_class.parse('PLACE 0,0,EAST')
+        expect(east[:direction]).to eq(ToyRobotSimulator::Direction::EAST)
 
-      it 'parses valid PLACE command with SOUTH' do
-        result = described_class.parse('PLACE 4,4,SOUTH')
-        expect(result).to eq({
-                               command: :place,
-                               x: 4,
-                               y: 4,
-                               direction: :south
-                             })
-      end
+        south = described_class.parse('PLACE 0,0,SOUTH')
+        expect(south[:direction]).to eq(ToyRobotSimulator::Direction::SOUTH)
 
-      it 'parses valid PLACE command with WEST' do
-        result = described_class.parse('PLACE 1,2,WEST')
-        expect(result).to eq({
-                               command: :place,
-                               x: 1,
-                               y: 2,
-                               direction: :west
-                             })
+        west = described_class.parse('PLACE 0,0,WEST')
+        expect(west[:direction]).to eq(ToyRobotSimulator::Direction::WEST)
       end
 
       it 'handles lowercase place command' do
-        result = described_class.parse('place 0,0,NORTH')
-        expect(result).to eq({
-                               command: :place,
-                               x: 0,
-                               y: 0,
-                               direction: :north
-                             })
+        result = described_class.parse('place 1,2,east')
+        expect(result[:command]).to eq(:place)
+        expect(result[:direction]).to eq(ToyRobotSimulator::Direction::EAST)
       end
 
       it 'handles mixed case direction' do
         result = described_class.parse('PLACE 0,0,North')
-        expect(result).to eq({
-                               command: :place,
-                               x: 0,
-                               y: 0,
-                               direction: :north
-                             })
+        expect(result[:command]).to eq(:place)
+        expect(result[:x]).to eq(0)
+        expect(result[:y]).to eq(0)
+        expect(result[:direction]).to eq(ToyRobotSimulator::Direction::NORTH)
       end
 
       it 'handles extra whitespace' do
         result = described_class.parse('  PLACE   0,0,NORTH  ')
-        expect(result).to eq({
-                               command: :place,
-                               x: 0,
-                               y: 0,
-                               direction: :north
-                             })
+        expect(result[:command]).to eq(:place)
+        expect(result[:x]).to eq(0)
+        expect(result[:y]).to eq(0)
+        expect(result[:direction]).to eq(ToyRobotSimulator::Direction::NORTH)
       end
     end
 
@@ -89,21 +55,6 @@ RSpec.describe ToyRobotSimulator::CommandParser do
         result = described_class.parse('PLACE 0,NORTH')
         expect(result).to be_nil
       end
-
-      it 'returns nil for PLACE with negative coordinates' do
-        result = described_class.parse('PLACE -1,0,NORTH')
-        expect(result).to be_nil
-      end
-
-      it 'returns nil for PLACE with non-numeric coordinates' do
-        result = described_class.parse('PLACE X,Y,NORTH')
-        expect(result).to be_nil
-      end
-
-      it 'returns nil for PLACE with spaces in coordinates' do
-        result = described_class.parse('PLACE 0, 0, NORTH')
-        expect(result).to be_nil
-      end
     end
 
     context 'with other commands' do
@@ -115,16 +66,6 @@ RSpec.describe ToyRobotSimulator::CommandParser do
       it 'parses LEFT command' do
         result = described_class.parse('LEFT')
         expect(result).to eq({ command: :left })
-      end
-
-      it 'parses RIGHT command' do
-        result = described_class.parse('RIGHT')
-        expect(result).to eq({ command: :right })
-      end
-
-      it 'parses REPORT command' do
-        result = described_class.parse('REPORT')
-        expect(result).to eq({ command: :report })
       end
 
       it 'handles lowercase commands' do

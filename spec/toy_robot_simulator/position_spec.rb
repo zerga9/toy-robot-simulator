@@ -1,14 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe ToyRobotSimulator::Position do
-  subject(:position) { described_class.new(2, 3) }
   describe '#initialize' do
-    it 'sets the x coordinate' do
-      expect(subject.x).to eq(2)
-    end
-
-    it 'sets the y coordinate' do
-      expect(subject.y).to eq(3)
+    it 'creates a position with x and y coordinates' do
+      position = described_class.new(2, 3)
+      expect(position.x).to eq(2)
+      expect(position.y).to eq(3)
     end
   end
 
@@ -17,13 +14,13 @@ RSpec.describe ToyRobotSimulator::Position do
 
     context 'when moving NORTH' do
       it 'returns new position with y incremented by 1' do
-        new_position = position.move(:north)
+        new_position = position.move(ToyRobotSimulator::Direction::NORTH)
         expect(new_position.x).to eq(2)
         expect(new_position.y).to eq(3)
       end
 
       it 'does not modify original position' do
-        position.move(:north)
+        position.move(ToyRobotSimulator::Direction::NORTH)
         expect(position.x).to eq(2)
         expect(position.y).to eq(2)
       end
@@ -31,7 +28,7 @@ RSpec.describe ToyRobotSimulator::Position do
 
     context 'when moving EAST' do
       it 'returns new position with x incremented by 1' do
-        new_position = position.move(:east)
+        new_position = position.move(ToyRobotSimulator::Direction::EAST)
         expect(new_position.x).to eq(3)
         expect(new_position.y).to eq(2)
       end
@@ -39,7 +36,7 @@ RSpec.describe ToyRobotSimulator::Position do
 
     context 'when moving SOUTH' do
       it 'returns new position with y decremented by 1' do
-        new_position = position.move(:south)
+        new_position = position.move(ToyRobotSimulator::Direction::SOUTH)
         expect(new_position.x).to eq(2)
         expect(new_position.y).to eq(1)
       end
@@ -47,7 +44,7 @@ RSpec.describe ToyRobotSimulator::Position do
 
     context 'when moving WEST' do
       it 'returns new position with x decremented by 1' do
-        new_position = position.move(:west)
+        new_position = position.move(ToyRobotSimulator::Direction::WEST)
         expect(new_position.x).to eq(1)
         expect(new_position.y).to eq(2)
       end
@@ -68,14 +65,14 @@ RSpec.describe ToyRobotSimulator::Position do
     context 'edge cases' do
       it 'moves from (0,0) NORTH to (0,1)' do
         pos = described_class.new(0, 0)
-        new_pos = pos.move(:north)
+        new_pos = pos.move(ToyRobotSimulator::Direction::NORTH)
         expect(new_pos.x).to eq(0)
         expect(new_pos.y).to eq(1)
       end
 
       it 'moves from (0,0) SOUTH to (0,-1)' do
         pos = described_class.new(0, 0)
-        new_pos = pos.move(:south)
+        new_pos = pos.move(ToyRobotSimulator::Direction::SOUTH)
         expect(new_pos.x).to eq(0)
         expect(new_pos.y).to eq(-1)
       end

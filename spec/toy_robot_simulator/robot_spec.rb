@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe ToyRobotSimulator::Robot do
   let(:robot) { described_class.new }
   let(:position) { ToyRobotSimulator::Position.new(0, 0) }
-  let(:direction) { :north }
+  let(:direction) { ToyRobotSimulator::Direction::NORTH }
 
   describe '#initialize' do
     it 'starts in an unplaced state' do
@@ -41,28 +41,28 @@ RSpec.describe ToyRobotSimulator::Robot do
   describe '#move' do
     context 'when robot is placed' do
       it 'moves north correctly' do
-        robot.place(ToyRobotSimulator::Position.new(2, 2), :north)
+        robot.place(ToyRobotSimulator::Position.new(2, 2), ToyRobotSimulator::Direction::NORTH)
         robot.move
         expect(robot.position.x).to eq(2)
         expect(robot.position.y).to eq(3)
       end
 
       it 'moves east correctly' do
-        robot.place(ToyRobotSimulator::Position.new(2, 2), :east)
+        robot.place(ToyRobotSimulator::Position.new(2, 2), ToyRobotSimulator::Direction::EAST)
         robot.move
         expect(robot.position.x).to eq(3)
         expect(robot.position.y).to eq(2)
       end
 
       it 'moves south correctly' do
-        robot.place(ToyRobotSimulator::Position.new(2, 2), :south)
+        robot.place(ToyRobotSimulator::Position.new(2, 2), ToyRobotSimulator::Direction::SOUTH)
         robot.move
         expect(robot.position.x).to eq(2)
         expect(robot.position.y).to eq(1)
       end
 
       it 'moves west correctly' do
-        robot.place(ToyRobotSimulator::Position.new(2, 2), :west)
+        robot.place(ToyRobotSimulator::Position.new(2, 2), ToyRobotSimulator::Direction::WEST)
         robot.move
         expect(robot.position.x).to eq(1)
         expect(robot.position.y).to eq(2)

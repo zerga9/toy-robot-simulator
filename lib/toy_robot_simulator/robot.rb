@@ -1,7 +1,5 @@
 module ToyRobotSimulator
   class Robot
-    DIRECTIONS = %i[north east south west].freeze
-
     attr_reader :position, :direction, :table
 
     def initialize(table = Table.new)
@@ -11,14 +9,12 @@ module ToyRobotSimulator
     end
 
     def place(position, direction)
-      return unless DIRECTIONS.include?(direction.to_s.downcase.to_sym)
-
       @position = position
-      @direction = direction.to_s.downcase.to_sym
+      @direction = direction
     end
 
     def placed?
-      !@position.nil? && !@direction.nil?
+      !position.nil? && !direction.nil?
     end
 
     def move
@@ -28,6 +24,12 @@ module ToyRobotSimulator
       return unless table.valid_position?(new_position)
 
       @position = new_position
+    end
+
+    def turn_left
+      return unless placed?
+
+      @direction = direction.turn_left
     end
   end
 end
