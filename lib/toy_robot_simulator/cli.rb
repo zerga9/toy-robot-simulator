@@ -2,11 +2,12 @@
 
 module ToyRobotSimulator
   class CLI
-    attr_reader :simulator, :parser
+    attr_reader :args, :parser, :simulator
 
-    def initialize
-      @simulator = Simulator.new
+    def initialize(args)
+      @args = args
       @parser = CommandParser.new
+      @simulator = Simulator.new
     end
 
     def run
@@ -18,7 +19,7 @@ module ToyRobotSimulator
     private
 
     def create_reader
-      ToyRobotSimulator::Readers::StdinReader.new
+      args.empty? ? Readers::StdinReader.new : Readers::FileReader.new(args[0])
     end
   end
 end

@@ -222,3 +222,28 @@ REPORT → Output: 3,3,EAST
 - And I can continue entering commands until I exit
 
 ---
+
+### Story 10: Read Commands from File
+**As a** user
+**I want to** provide commands from a text file
+**So that** I can run predefined test scenarios
+
+**Acceptance Criteria:**
+- Given I have a text file with commands (one per line)
+- When I run the application with the file as input
+- Then all commands are executed in sequence
+- And any REPORT commands output to standard output
+
+**Example:**
+```bash
+# commands.txt contains:
+PLACE 0,0,NORTH
+MOVE
+REPORT
+
+# Run:
+ruby bin/robot commands.txt
+→ Output: 0,1,NORTH
+```
+
+---

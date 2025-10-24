@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/toy_robot_simulator'
-require_relative '../lib/toy_robot_simulator/cli'
 
-ToyRobotSimulator::CLI.new.run
+ToyRobotSimulator::CLI.new(ARGV).run
