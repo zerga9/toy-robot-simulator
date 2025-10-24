@@ -59,7 +59,7 @@ RSpec.describe ToyRobotSimulator::CLI do
       let(:cli) { described_class.new([]) }
 
       it 'completes without error' do
-        stub_stdin("")
+        stub_stdin('')
         expect { cli.run }.not_to raise_error
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ToyRobotSimulator
   class Direction
     attr_reader :name, :dir_x, :dir_y

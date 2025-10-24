@@ -1,249 +1,117 @@
 # Toy Robot Simulator
 
-## User Stories
-
-### Story 1: Place Robot on Table
-
-**As a** user
-**I want to** place a robot on the table at a specific position and direction
-**So that** I can start simulating robot movements
-
-**Acceptance Criteria:**
-
-- Given the table is 5x5 units
-- When I issue command `PLACE 0,0,NORTH`
-- Then the robot is placed at position (0,0) facing NORTH
-- And the robot is ready to accept further commands
-
-**Examples:**
-
 ```
-PLACE 0,0,NORTH   → Robot at (0,0) facing NORTH
-PLACE 2,3,EAST    → Robot at (2,3) facing EAST
-PLACE 4,4,SOUTH   → Robot at (4,4) facing SOUTH
+    ___
+   |[X]|
+   /   \
+  |  O  |
+  |_____|
+  |  |  |
+  |__|__|
 ```
 
----
+A simple robot simulator that moves around a 5×5 table. The robot won't fall off (it's been trained well).
 
-### Story 2: Prevent Invalid Initial Placement
+**Requirements:** Ruby 3.0 or higher
 
-**As a** user
-**I want** invalid PLACE commands to be ignored
-**So that** the robot doesn't fall off the table during initial placement
+## Quick Start
 
-**Acceptance Criteria:**
-
-- Given the table is 5x5 (positions 0-4 are valid)
-- When I issue command `PLACE 5,5,NORTH`
-- Then the command is ignored
-- And the robot remains unplaced
-- And further commands are ignored until a valid PLACE command
-
-**Examples:**
-
-```
-PLACE 10,10,NORTH → Ignored (out of bounds)
-PLACE -1,0,NORTH  → Ignored (negative position)
-PLACE 0,5,NORTH   → Ignored (y=5 is off table)
-```
-
----
-
-### Story 3: Ignore Commands Before Placement
-
-**As a** user
-**I want** all commands before the first valid PLACE to be ignored
-**So that** I don't execute commands on an unplaced robot
-
-**Acceptance Criteria:**
-
-- Given the robot has not been placed
-- When I issue other commands than PLACE
-- Then all commands are ignored
-- When I issue a valid PLACE command
-- Then the robot is placed
-- And subsequent commands are executed
-
-**Example:**
-
-```
-MOVE              → Ignored
-LEFT              → Ignored
-REPORT            → Ignored
-PLACE 0,0,NORTH   → Robot placed
-MOVE              → Executed
-```
-
----
-
-### Story 4: Move Robot Forward
-
-**As a** user
-**I want to** move the robot one unit forward in its current direction
-**So that** I can navigate the robot around the table
-
-**Acceptance Criteria:**
-
-- Given the robot is placed at a valid position
-- When I issue command `MOVE`
-- Then the robot moves 1 unit forward in its current facing direction
-- NORTH increases Y by 1
-- EAST increases X by 1
-- SOUTH decreases Y by 1
-- WEST decreases X by 1
-
-**Examples:**
-
-```
-Position (0,0) facing NORTH + MOVE → Position (0,1)
-Position (2,2) facing EAST + MOVE  → Position (3,2)
-Position (3,3) facing SOUTH + MOVE → Position (3,2)
-Position (2,2) facing WEST + MOVE  → Position (1,2)
-```
-
----
-
-### Story 5: Prevent Robot From Falling Off Table
-
-**As a** user
-**I want** the robot to ignore MOVE commands that would make it fall
-**So that** the robot stays on the table and doesn't get destroyed
-
-**Acceptance Criteria:**
-
-- Given the robot is at the edge of the table
-- When I issue a MOVE command that would take it off the table
-- Then the MOVE command is ignored
-- And the robot remains at its current position
-- And the robot can still accept further valid commands
-
-**Examples:**
-
-```
-At (0,0) facing SOUTH + MOVE → Stays at (0,0)
-At (0,0) facing WEST + MOVE  → Stays at (0,0)
-At (4,4) facing NORTH + MOVE → Stays at (4,4)
-At (4,4) facing EAST + MOVE  → Stays at (4,4)
-```
-
----
-
-### Story 6: Rotate Robot Left
-
-**As a** user
-**I want to** rotate the robot 90 degrees counter-clockwise
-**So that** I can change the robot's facing direction
-
-**Acceptance Criteria:**
-
-- Given the robot is placed on the table
-- When I issue command `LEFT`
-- Then the robot rotates 90 degrees counter-clockwise
-- And the robot's position does not change
-- NORTH → WEST
-- WEST → SOUTH
-- SOUTH → EAST
-- EAST → NORTH
-
-**Examples:**
-
-```
-Facing NORTH + LEFT → Facing WEST
-Facing WEST + LEFT  → Facing SOUTH
-Facing SOUTH + LEFT → Facing EAST
-Facing EAST + LEFT  → Facing NORTH
-```
-
----
-
-### Story 7: Rotate Robot Right
-
-**As a** user
-**I want to** rotate the robot 90 degrees clockwise
-**So that** I can change the robot's facing direction
-
-**Acceptance Criteria:**
-
-- Given the robot is placed on the table
-- When I issue command `RIGHT`
-- Then the robot rotates 90 degrees clockwise
-- And the robot's position does not change
-- NORTH → EAST
-- EAST → SOUTH
-- SOUTH → WEST
-- WEST → NORTH
-
-**Examples:**
-
-```
-Facing NORTH + RIGHT → Facing EAST
-Facing EAST + RIGHT  → Facing SOUTH
-Facing SOUTH + RIGHT → Facing WEST
-Facing WEST + RIGHT  → Facing NORTH
-```
-
-### Story 8: Report Robot Position
-
-**As a** user
-**I want to** see the robot's current position and direction
-**So that** I can verify the robot's state
-
-**Acceptance Criteria:**
-
-- Given the robot is placed on the table
-- When I issue command `REPORT`
-- Then the robot outputs its X position, Y position, and facing direction
-- Format: `X,Y,DIRECTION`
-- Output goes to standard output
-
-**Examples:**
-
-```
-Robot at (0,0) facing NORTH
-REPORT → Output: 0,0,NORTH
-
-Robot at (3,3) facing EAST
-REPORT → Output: 3,3,EAST
-```
-
----
-
-### Story 9: Read Commands from Standard Input
-
-**As a** user
-**I want to** enter commands via standard input (keyboard)
-**So that** I can interact with the robot simulator interactively
-
-**Acceptance Criteria:**
-
-- Given the application is running
-- When I type commands and press Enter
-- Then each command is executed immediately
-- And I can continue entering commands until I exit
-
----
-
-### Story 10: Read Commands from File
-**As a** user
-**I want to** provide commands from a text file
-**So that** I can run predefined test scenarios
-
-**Acceptance Criteria:**
-- Given I have a text file with commands (one per line)
-- When I run the application with the file as input
-- Then all commands are executed in sequence
-- And any REPORT commands output to standard output
-
-**Example:**
 ```bash
-# commands.txt contains:
-PLACE 0,0,NORTH
+# Setup
+./bin/setup
+
+# Run interactively
+ruby ./bin/toy_robot
+
+# Or from a file
+ruby ./bin/toy_robot examples/example1.txt
+
+# Run tests
+bundle exec rspec
+```
+
+## How it works
+
+You control a robot on a 5×5 grid (positions 0-4 on both X and Y axes). The robot ignores any command that would make it fall off.
+
+### Commands
+
+```
+PLACE X,Y,DIRECTION  Place robot at position (X,Y) facing NORTH/SOUTH/EAST/WEST
+MOVE                 Move one unit forward
+LEFT                 Turn 90° counter-clockwise
+RIGHT                Turn 90° clockwise
+REPORT               Show current position (outputs: X,Y,DIRECTION)
+EXIT or QUIT         Exit the simulator
+```
+
+**Important:** The first valid command must be `PLACE`. Everything before that is ignored.
+
+## Examples
+
+### Interactive mode
+```
+> PLACE 0,0,NORTH
+> MOVE
+> REPORT
+0,1,NORTH
+> RIGHT
+> MOVE
+> REPORT
+1,1,EAST
+```
+
+### Edge protection
+```
+> PLACE 0,0,SOUTH
+> MOVE
+> REPORT
+0,0,SOUTH          # Ignored the move - would fall off!
+```
+
+### Commands from file
+Create a file `commands.txt`:
+```
+PLACE 1,2,EAST
+MOVE
+MOVE
+LEFT
 MOVE
 REPORT
-
-# Run:
-ruby bin/robot commands.txt
-→ Output: 0,1,NORTH
 ```
 
----
+Run it:
+```bash
+./bin/toy_robot commands.txt
+# Output: 3,3,NORTH
+```
+
+## Project Structure
+
+```
+lib/
+  toy_robot_simulator/
+    cli.rb              # Command-line interface
+    command_parser.rb   # Parses text commands
+    direction.rb        # Cardinal directions with rotation
+    position.rb         # X,Y coordinates
+    robot.rb            # The robot itself
+    simulator.rb        # Main simulator logic
+    table.rb            # 5×5 table with bounds checking
+    readers/            # Input sources (stdin, file)
+```
+
+## Development
+
+```bash
+# Run all tests
+bundle exec rspec
+
+# Run specific test file
+bundle exec rspec spec/toy_robot_simulator/robot_spec.rb
+
+# Check code style
+bundle exec rubocop
+```
+
+Built with Ruby and RSpec

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ToyRobotSimulator
   class Robot
     attr_reader :position, :direction, :table

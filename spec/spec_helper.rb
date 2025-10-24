@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/toy_robot_simulator'
 
 RSpec.configure do |config|
