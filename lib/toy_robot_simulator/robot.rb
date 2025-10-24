@@ -3,9 +3,9 @@ module ToyRobotSimulator
     attr_reader :position, :direction, :table
 
     def initialize(table = Table.new)
-      @table = table
       @position = nil
       @direction = nil
+      @table = table
     end
 
     def place(position, direction)
@@ -26,16 +26,10 @@ module ToyRobotSimulator
       @position = new_position
     end
 
-    def turn_left
+    def turn(direction)
       return unless placed?
 
-      @direction = direction.turn_left
-    end
-
-    def turn_right
-      return unless placed?
-
-      @direction = direction.turn_right
+      @direction = @direction.turn(direction)
     end
 
     def report

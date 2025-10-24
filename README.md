@@ -207,3 +207,18 @@ REPORT → Output: 3,3,EAST
 ```
 
 ---
+
+### Story 9: Read Commands from Standard Input
+
+**As a** user
+**I want to** enter commands via standard input (keyboard)
+**So that** I can interact with the robot simulator interactively
+
+**Acceptance Criteria:**
+
+- Given the application is running
+- When I type commands and press Enter
+- Then each command is executed immediately
+- And I can continue entering commands until I exit
+
+---

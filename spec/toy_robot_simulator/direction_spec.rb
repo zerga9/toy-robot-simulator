@@ -35,21 +35,19 @@ RSpec.describe ToyRobotSimulator::Direction do
     end
   end
 
-  describe '#turn_left' do
+  describe '#turn' do
     it 'rotates counter-clockwise through all directions' do
-      expect(described_class::NORTH.turn_left).to eq(described_class::WEST)
-      expect(described_class::WEST.turn_left).to eq(described_class::SOUTH)
-      expect(described_class::SOUTH.turn_left).to eq(described_class::EAST)
-      expect(described_class::EAST.turn_left).to eq(described_class::NORTH)
+      expect(described_class::NORTH.turn(:left)).to eq(described_class::WEST)
+      expect(described_class::WEST.turn(:left)).to eq(described_class::SOUTH)
+      expect(described_class::SOUTH.turn(:left)).to eq(described_class::EAST)
+      expect(described_class::EAST.turn(:left)).to eq(described_class::NORTH)
     end
-  end
 
-  describe '#turn_right' do
     it 'rotates clockwise through all directions' do
-      expect(described_class::NORTH.turn_right).to eq(described_class::EAST)
-      expect(described_class::EAST.turn_right).to eq(described_class::SOUTH)
-      expect(described_class::SOUTH.turn_right).to eq(described_class::WEST)
-      expect(described_class::WEST.turn_right).to eq(described_class::NORTH)
+      expect(described_class::NORTH.turn(:right)).to eq(described_class::EAST)
+      expect(described_class::EAST.turn(:right)).to eq(described_class::SOUTH)
+      expect(described_class::SOUTH.turn(:right)).to eq(described_class::WEST)
+      expect(described_class::WEST.turn(:right)).to eq(described_class::NORTH)
     end
   end
 end

@@ -15,14 +15,11 @@ module ToyRobotSimulator
 
     DIRECTIONS = [NORTH, EAST, SOUTH, WEST].freeze
 
-    def turn_left
-      idx = DIRECTIONS.index(self)
-      DIRECTIONS[(idx - 1) % DIRECTIONS.size]
-    end
+    def turn(direction)
+      offset = direction == :left ? -1 : 1
 
-    def turn_right
       idx = DIRECTIONS.index(self)
-      DIRECTIONS[(idx + 1) % DIRECTIONS.size]
+      DIRECTIONS[(idx + offset) % DIRECTIONS.size]
     end
 
     def self.from_string(str)

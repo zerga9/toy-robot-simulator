@@ -70,49 +70,49 @@ RSpec.describe ToyRobotSimulator::Robot do
     end
   end
 
-  describe '#turn_left' do
+  describe '#turn' do
     context 'when robot is placed' do
       before { robot.place(position, ToyRobotSimulator::Direction::NORTH) }
 
       it 'rotates the robot left' do
-        robot.turn_left
+        robot.turn(:left)
         expect(robot.direction).to eq(ToyRobotSimulator::Direction::WEST)
       end
 
       it 'does not change position' do
         original_position = robot.position
-        robot.turn_left
+        robot.turn(:left)
         expect(robot.position).to eq(original_position)
       end
     end
 
     context 'when robot is not placed' do
       it 'does nothing' do
-        robot.turn_left
+        robot.turn(:left)
         expect(robot.placed?).to be false
       end
     end
   end
 
-  describe '#turn_right' do
+  describe 'turning right' do
     context 'when robot is placed' do
       before { robot.place(position, ToyRobotSimulator::Direction::NORTH) }
 
       it 'rotates the robot right' do
-        robot.turn_right
+        robot.turn(:right)
         expect(robot.direction).to eq(ToyRobotSimulator::Direction::EAST)
       end
 
       it 'does not change position' do
         original_position = robot.position
-        robot.turn_right
+        robot.turn(:right)
         expect(robot.position).to eq(original_position)
       end
     end
 
     context 'when robot is not placed' do
       it 'does nothing' do
-        robot.turn_right
+        robot.turn(:right)
         expect(robot.placed?).to be false
       end
     end

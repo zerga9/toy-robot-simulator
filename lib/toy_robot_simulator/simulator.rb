@@ -9,26 +9,23 @@ module ToyRobotSimulator
       @robot = Robot.new(@table)
     end
 
-    def execute(command_hash)
-      return if command_hash.nil?
+    def execute(cmd)
+      return unless cmd
 
-      case command_hash[:command]
-      when :place
-        place_robot(command_hash[:x], command_hash[:y], command_hash[:direction])
+      case cmd[:command]
+      when :place then place_robot(cmd)
       when :move then robot.move
-      when :left then robot.turn_left
-      when :right then robot.turn_right
+      when :left then robot.turn(:left)
+      when :right then robot.turn(:right)
       when :report then execute_report
       end
     end
 
     private
 
-    def place_robot(x, y, direction)
-      position = Position.new(x, y)
-      return unless table.valid_position?(position)
-
-      robot.place(position, direction)
+    def place_robot(cmd)
+      position = Position.new(cmd[:x], cmd[:y])
+      robot.place(position, cmd[:direction]) if table.valid_position?(position)
     end
 
     def execute_report

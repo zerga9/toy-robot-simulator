@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ToyRobotSimulator
   class CommandParser
     SIMPLE_COMMANDS = {
@@ -7,14 +9,17 @@ module ToyRobotSimulator
       'REPORT' => { command: :report }
     }.freeze
 
-    def self.parse(input)
-      return nil if input.nil? || input.strip.empty?
+    def parse(line)
+      return nil if line.nil? || line.strip.empty?
 
-      line = input.strip.upcase
+      line = line.strip.upcase
+
       parse_place(line) || SIMPLE_COMMANDS[line]
     end
 
-    def self.parse_place(line)
+    private
+
+    def parse_place(line)
       return nil unless line.start_with?('PLACE ')
 
       params = line.sub('PLACE ', '').strip
@@ -26,7 +31,7 @@ module ToyRobotSimulator
       { command: :place, x: x, y: y, direction: direction }
     end
 
-    def self.extract_place_params(params)
+    def extract_place_params(params)
       place_params = params.split(',').map(&:strip)
       return [nil, nil, nil] unless place_params.size == 3
 
