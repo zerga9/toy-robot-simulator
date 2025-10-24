@@ -31,7 +31,7 @@ module ToyRobotSimulator
     def turn(rotation)
       return unless placed?
 
-      @direction = @direction.turn(rotation)
+      @direction = direction.turn(rotation)
     end
 
     def report
