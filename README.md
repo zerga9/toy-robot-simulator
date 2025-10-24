@@ -94,7 +94,7 @@ Run it:
 ```
 lib/
   toy_robot_simulator/
-    cli.rb              # Command-line interface
+    cli.rb              # Command line interface
     command_parser.rb   # Parses text commands
     direction.rb        # Cardinal directions with rotation
     position.rb         # X,Y coordinates
@@ -125,21 +125,21 @@ When I started this, I wanted to keep things simple while showing good design pr
 
 The `Direction` class was interesting to work on. Instead of scattering direction logic throughout the code with lots of if statements, I made it a proper object. Each direction knows its name and which way it moves on the grid. When the robot needs to turn left or right, it's just simple math on an array of directions. It felt really satisfying to solve rotation this way because the code is clean and there are no conditionals to maintain.
 
-I thought carefully about how the robot should handle mistakes. The spec made it clear that prevention was more important than errors, so the robot just quietly ignores any command that would make it fall off the table. It also won't do anything until you place it first with a valid PLACE command. This makes the simulator safe and predictable, which feels right for controlling a robot.
+I thought carefully about how the robot should handle mistakes. The instructions for the challenge made it clear that the application should discard the commands until there is a valid one, so the robot just quietly ignores any command that would make it fall off the table. It also won't do anything until you place it first with a valid PLACE command. This makes the simulator safe and predictable.
 
 For reading commands, I built separate reader classes for stdin and files. They both work the same way from the outside, which keeps the CLI simple. If someone wanted to add more input sources later, like reading from a network socket or building a web interface, they could just create another reader class without touching any of the core logic.
 
-I wrote tests as I went, starting with the requirements and then adding edge cases as I thought of them. The test suite ended up with 91 examples that cover everything from basic movement to boundary checking to invalid input. I kept refactoring as I wrote more tests, always making sure the code stayed readable. My goal was that anyone looking at this code could understand what's happening and know where to make changes. If you wanted a bigger table or new commands, the structure makes it obvious where those changes would go.
+I wrote tests as I went, starting with the requirements and then adding edge cases as I thought of them. The test suite ended up with 91 examples that cover everything from basic movement to boundary checking to invalid input. I kept refactoring as I wrote more tests. My goal was that anyone looking at this code could understand what's happening and know where to make changes. If you wanted a bigger table or new commands, the structure makes it obvious where those changes would go.
 
-I decided not to package this as a gem because it's a self-contained application rather than a library that other projects would depend on. Gems make sense when you're building reusable code that needs to be distributed and versioned. This is a command line simulator meant to be run directly, so keeping it simple as a Ruby project felt like the right choice. The structure is clean enough that if someone did want to extract parts of it into a gem later, like the Direction or Position classes, it would be straightforward to do.
+I decided not to package this as a Ruby gem because it's a self-contained application rather than a library that other projects would depend on. Gems make sense when you're building reusable code that needs to be distributed and versioned. This is a command line simulator, running directly, so keeping it simple as a Ruby project felt like the right choice.
 
 ## What I'd Add With More Time
 
-If I had another day or two, I'd add code coverage reporting with SimpleCov to see exactly which lines are tested. It's satisfying to see those green percentages, and it helps catch edge cases you might have missed.
+If I had another day or two, I'd add code coverage reporting with SimpleCov to see exactly which lines are tested. It helps catch edge cases you might have missed.
 
-I'd also make the table size configurable instead of hardcoding 5×5. Right now it works perfectly for the requirements, but making it flexible would be a nice touch. Something like `Table.new(width: 10, height: 10)` would do it, and all the existing validation logic would just work.
+I'd also make the table size configurable instead of hardcoding 5×5. Right now it works for the requirements, but making it flexible would be a nice. Something like `Table.new(width: 10, height: 10)` would do it, and all the existing validation logic would just work.
 
-A visual representation of the table would be fun to add. When you run REPORT, it could draw a simple ASCII grid showing where the robot is and which direction it's facing. It would make the simulator more satisfying to play with and easier to debug complex sequences of moves.
+A visual representation of the table would be nice to add. When you run REPORT, it could draw a simple ASCII grid showing where the robot is and which direction it's facing. It would make the simulator more satisfying to play with and easier to debug complex sequences of moves.
 
 I'd probably add a command history feature too. Being able to type something like UNDO or HISTORY would let you experiment more freely. You could try a sequence of moves, undo if you don't like it, and try a different path. It would make the interactive mode more powerful without changing the core robot logic at all.
 
