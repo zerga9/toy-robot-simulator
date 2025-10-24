@@ -14,7 +14,10 @@ module ToyRobotSimulator
       print_usage if @args.empty?
 
       create_reader.read do |line|
-        simulator.execute(parser.parse(line))
+        cmd = parser.parse(line)
+        break if cmd && cmd[:command] == :exit
+
+        simulator.execute(cmd)
       end
     end
 

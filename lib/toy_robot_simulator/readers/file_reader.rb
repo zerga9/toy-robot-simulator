@@ -10,7 +10,9 @@ module ToyRobotSimulator
       end
 
       def read(&block)
-        File.foreach(filename, &block)
+        File.foreach(filename) do |line|
+          block.call(line.chomp)
+        end
       rescue Errno::ENOENT
         warn "Error: File '#{filename}' not found"
       rescue Errno::EACCES

@@ -5,10 +5,7 @@ module ToyRobotSimulator
     class StdinReader
       def read(&block)
         $stdin.each_line do |line|
-          line = line.chomp
-          break if %w[EXIT QUIT].include?(line.upcase)
-
-          block.call(line)
+          block.call(line.chomp)
         end
       end
     end

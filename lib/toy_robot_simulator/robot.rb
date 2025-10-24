@@ -28,10 +28,10 @@ module ToyRobotSimulator
       @position = new_position
     end
 
-    def turn(direction)
+    def turn(rotation)
       return unless placed?
 
-      @direction = @direction.turn(direction)
+      @direction = @direction.turn(rotation)
     end
 
     def report

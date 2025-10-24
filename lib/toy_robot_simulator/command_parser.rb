@@ -6,7 +6,9 @@ module ToyRobotSimulator
       'MOVE' => { command: :move },
       'LEFT' => { command: :left },
       'RIGHT' => { command: :right },
-      'REPORT' => { command: :report }
+      'REPORT' => { command: :report },
+      'EXIT' => { command: :exit },
+      'QUIT' => { command: :exit }
     }.freeze
 
     def parse(line)
