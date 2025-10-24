@@ -39,7 +39,7 @@ module ToyRobotSimulator
       puts "Note: The first command must be PLACE. All other commands are ignored until"
       puts "      the robot is placed on the table."
       puts ""
-      puts "Enter commands (one per line). Press Ctrl+D to exit."
+      puts "Enter commands (one per line). Type exit or quit to exit."
       puts ""
     end
 
